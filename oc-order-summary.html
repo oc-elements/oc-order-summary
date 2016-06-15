@@ -1,0 +1,97 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="../oc-order-behaviour/oc-order-behaviour.html">
+
+<!--
+A short summary of an order
+
+@demo
+-->
+<dom-module id="oc-order-summary">
+
+  <template>
+    <style include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        padding: 0.6em;
+        position: relative;
+        font-size: 1.5em;
+      }
+      iron-icon {
+        display: none;
+        color: #FF5252;
+        margin-right: 0.4em;
+      }
+      :host > div {
+        font-weight: bold;
+      }
+      .price {
+        color: var(--secondary-text-color);
+      }
+      :host[partially-rejected] {
+        background-color: rgba(255,82,82,0.4);
+      }
+      :host[partially-rejected] iron-icon {
+        display: inline-block;
+      }
+      .has-tooltip {
+        cursor: help;
+      }
+    </style>
+
+    <div class="horizontal layout">
+      <iron-icon icon="icons:warning"></iron-icon>
+      <div class="flex">[[ order.shortReference ]]</div>
+      <span class="price has-tooltip">
+        Total: R <span>[[ formatMoney(order.amount) ]]</span>
+        <paper-tooltip position="left">
+          <div>
+            <div>Tip: R <span>[[ formatMoney(order.tip) ]]</span></div>
+            <br>
+          </div>
+          <div hidden$="[[ !order.delivery ]]">
+            <div>Delivery Fee: R <span>[[ formatMoney(order.deliveryCost) ]]</span></div>
+            <br>
+          </div>
+          <div>Markup: R <span>[[ _getTotalMarkup(order.items) ]]</span></div>
+          <br>
+          <div>Discount: R <span>[[ _getTotalDiscount(order.items) ]]</span></div>
+          <br>
+          <div>Sub Total: R <span>[[ _getSubtotalPrice(order.items) ]]</span></div>
+        </paper-tooltip>
+      </span>
+    </div>
+
+  </template>
+
+  <script>
+    (function () {
+      Polymer({
+        is: 'oc-order-summary',
+        behaviors: [OC.Behaviours.Order],
+
+        properties:{
+          /**
+           * The order to summarise
+           */
+          order: Object,
+          /**
+           * Is the order partially rejected
+           */
+          partiallyRejected: {
+            type: Boolean,
+            computed: '_isPartiallyRejectedOrder(order)',
+            reflectToAttribute: true,
+            notify: true
+          }
+        }
+
+      });
+    })();
+  </script>
+
+</dom-module>
