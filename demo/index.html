@@ -16,6 +16,17 @@
   </head>
   <body>
 
+  <style is="custom-style">
+    demo-snippet {
+      --demo-snippet-demo: {
+        background-color: #e0e0e0;
+      }
+    }
+    oc-order-summary:not([partially-rejected]) {
+      background-color: white;
+    }
+  </style>
+
     <div class="vertical-section-container centered">
       <h3>Basic oc-order-summary Demo</h3>
       <demo-snippet>
@@ -27,7 +38,7 @@
             var table = document.querySelector('oc-order-summary');
             table.order = {
               status: {id: 8},
-              shortReference:"XYZ000000400",
+              shortReference:"XYZ_HO000000400",
               amount:71.91,
               deliveryCost:2.95,
               tip: 5,

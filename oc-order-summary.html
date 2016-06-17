@@ -19,15 +19,25 @@ A short summary of an order
         display: block;
         padding: 0.6em;
         position: relative;
+        font-weight: bold;
         font-size: 1.5em;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
       }
       iron-icon {
         display: none;
         color: #FF5252;
         margin-right: 0.4em;
       }
-      :host > div {
-        font-weight: bold;
+      .reference {
+        margin-right: 0.4em;
       }
       .price {
         color: var(--secondary-text-color);
@@ -41,30 +51,34 @@ A short summary of an order
       .has-tooltip {
         cursor: help;
       }
+
+      @media (max-width: 425px) {
+        :host {
+          font-size: 1.2em;
+        }
+      }
     </style>
 
-    <div class="horizontal layout">
-      <iron-icon icon="icons:warning"></iron-icon>
-      <div class="flex">[[ order.shortReference ]]</div>
-      <span class="price has-tooltip">
-        Total: R <span>[[ formatMoney(order.amount) ]]</span>
-        <paper-tooltip position="left">
-          <div>
-            <div>Tip: R <span>[[ formatMoney(order.tip) ]]</span></div>
-            <br>
-          </div>
-          <div hidden$="[[ !order.delivery ]]">
-            <div>Delivery Fee: R <span>[[ formatMoney(order.deliveryCost) ]]</span></div>
-            <br>
-          </div>
-          <div>Markup: R <span>[[ _getTotalMarkup(order.items) ]]</span></div>
+    <iron-icon icon="icons:warning"></iron-icon>
+    <div class="reference flex">[[ order.shortReference ]]</div>
+    <span class="price has-tooltip">
+      Total: R [[ formatMoney(order.amount) ]]
+      <paper-tooltip position="left" fit-to-visible-bounds>
+        <div>
+          <div>Tip: R [[ formatMoney(order.tip) ]]</div>
           <br>
-          <div>Discount: R <span>[[ _getTotalDiscount(order.items) ]]</span></div>
+        </div>
+        <div hidden$="[[ !order.delivery ]]">
+          <div>Delivery Fee: R [[ formatMoney(order.deliveryCost) ]]</div>
           <br>
-          <div>Sub Total: R <span>[[ _getSubtotalPrice(order.items) ]]</span></div>
-        </paper-tooltip>
-      </span>
-    </div>
+        </div>
+        <div>Markup: R [[ _getTotalMarkup(order.items) ]]</div>
+        <br>
+        <div>Discount: R [[ _getTotalDiscount(order.items) ]]</div>
+        <br>
+        <div>Sub Total: R [[ _getSubtotalPrice(order.items) ]]</div>
+      </paper-tooltip>
+    </span>
 
   </template>
 
