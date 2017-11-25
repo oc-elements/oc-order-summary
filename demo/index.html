@@ -1,84 +1,30 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>oc-order-summary demo</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>oc-order-summary demo</title>
+
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-
     <link rel="import" href="../oc-order-summary.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
   </head>
   <body>
-
-  <style is="custom-style">
-    demo-snippet {
-      --demo-snippet-demo: {
-        background-color: #e0e0e0;
-      }
-    }
-    oc-order-summary:not([partially-rejected]) {
-      background-color: white;
-    }
-  </style>
-
     <div class="vertical-section-container centered">
-      <h3>Basic oc-order-summary Demo</h3>
+      <h3>Basic oc-order-summary demo</h3>
       <demo-snippet>
         <template>
           <oc-order-summary></oc-order-summary>
-
-          <script>
-          (function() {
-            var table = document.querySelector('oc-order-summary');
-            table.order = {
-              status: {id: 8},
-              shortReference:"XYZ_HO000000400",
-              amount:71.91,
-              deliveryCost:2.95,
-              tip: 5,
-              items: [
-                {
-                  price: 10,
-                  markup: 1,
-                  itemDiscount: {
-                    discountAmount: 2
-                  }
-                }
-              ],
-              delivery: {}
-            };
-          })();
-          </script>
         </template>
       </demo-snippet>
     </div>
-
-    <div class="vertical-section-container centered">
-      <h3>Partially rejected oc-order-summary Demo</h3>
-      <demo-snippet>
-        <template>
-          <oc-order-summary></oc-order-summary>
-
-          <script>
-            (function() {
-              var table = document.querySelectorAll('oc-order-summary')[1];
-              table.order = {
-                status: {id: 14},
-                shortReference:"XYZ000000400",
-                amount:10,
-                items: []
-              };
-            })();
-          </script>
-        </template>
-      </demo-snippet>
-    </div>
-
   </body>
 </html>

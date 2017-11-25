@@ -1,67 +1,58 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-icon/iron-icon.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../oc-core-utils/oc-order-helper.html">
+<link rel="import" href="../oc-core-utils/oc-formatter.html">
 
-<link rel="import" href="../oc-order-behaviour/oc-order-behaviour.html">
-
-<!--
-A short summary of an order
-
-@demo
--->
 <dom-module id="oc-order-summary">
-
   <template>
-    <style include="iron-flex iron-flex-alignment">
+
+  <style include="iron-flex iron-flex-alignment">
+    :host {
+      display: block;
+      padding: 0.6em;
+      position: relative;
+      font-weight: bold;
+      font-size: 1.5em;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+    }
+    iron-icon {
+      display: none;
+      color: #FF5252;
+      margin-right: 0.4em;
+    }
+    .reference {
+      margin-right: 0.4em;
+    }
+    .price {
+      color: var(--secondary-text-color);
+    }
+    :host[partially-rejected] {
+      background-color: rgba(255,82,82,0.4);
+    }
+    :host[partially-rejected] iron-icon {
+      display: inline-block;
+    }
+    .has-tooltip {
+      cursor: help;
+    }
+
+    @media (max-width: 425px) {
       :host {
-        display: block;
-        padding: 0.6em;
-        position: relative;
-        font-weight: bold;
-        font-size: 1.5em;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-wrap: wrap;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
+        font-size: 1.2em;
       }
-      iron-icon {
-        display: none;
-        color: #FF5252;
-        margin-right: 0.4em;
-      }
-      .reference {
-        margin-right: 0.4em;
-      }
-      .price {
-        color: var(--secondary-text-color);
-      }
-      :host[partially-rejected] {
-        background-color: rgba(255,82,82,0.4);
-      }
-      :host[partially-rejected] iron-icon {
-        display: inline-block;
-      }
-      .has-tooltip {
-        cursor: help;
-      }
+    }
+  </style>
 
-      @media (max-width: 425px) {
-        :host {
-          font-size: 1.2em;
-        }
-      }
-    </style>
-
-    <iron-icon icon="icons:warning"></iron-icon>
-    <div class="reference flex">[[ order.shortReference ]]</div>
-    <span class="price has-tooltip">
+  <iron-icon icon="icons:warning"></iron-icon>
+  <div class="reference flex">[[ order.shortReference ]]</div>
+  <span class="price has-tooltip">
       Total: R [[ formatMoney(order.amount) ]]
       <paper-tooltip position="left" fit-to-visible-bounds>
         <div>
@@ -83,29 +74,40 @@ A short summary of an order
   </template>
 
   <script>
-    (function () {
-      Polymer({
-        is: 'oc-order-summary',
-        behaviors: [OC.Behaviours.Order],
-
-        properties:{
-          /**
-           * The order to summarise
-           */
-          order: Object,
-          /**
-           * Is the order partially rejected
-           */
-          partiallyRejected: {
-            type: Boolean,
-            computed: '_isPartiallyRejectedOrder(order)',
-            reflectToAttribute: true,
-            notify: true
+      /**
+       * `oc-order-summary`
+       * Order Summary
+       *
+       * @customElement
+       * @polymer
+       * @demo demo/index.html
+       */
+      class OcOrderSummary extends Ordercloud.OrderHelper(Ordercloud.Formatter(Polymer.Element)){
+          static get is() {
+              return 'oc-order-summary';
           }
-        }
 
-      });
-    })();
+          static get properties() {
+              return {
+                  /**
+                   * The order to summarise
+                   */
+                  order: Object,
+                  /**
+                   * Is the order partially rejected
+                   */
+                  partiallyRejected: {
+                      type: Boolean,
+                      computed: '_isPartiallyRejectedOrder(order)',
+                      reflectToAttribute: true,
+                      notify: true
+                  }
+              }
+          }
+      }
+
+      window.customElements.define(OcOrderSummary.is, OcOrderSummary);
+
+
   </script>
-
 </dom-module>
